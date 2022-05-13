@@ -5,6 +5,11 @@ export const loadContract = async (name, provider) => {
     const artifact = await res.json()
     const contractObj = contract(artifact)
     contractObj.setProvider(provider)
-    const instance = await contractObj.deployed()
+    let instance = null
+    try {
+        instance = await contractObj.deployed()
+    } catch {
+        console.error("You are connected to the wrong netwrok")
+    }
     return instance
 }
